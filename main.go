@@ -2,33 +2,28 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"net/http"
+	"time"
+
+	"github.com/levtea/crawler/collect"
+	"github.com/levtea/crawler/proxy"
 )
 
 func main() {
-	url := "https://www.thepaper.cn/"
-	resp, err := http.Get(url)
-
+	proxyURLs := []string{"http://127.0.0.1:7890", "http://127.0.0.1:7890"}
+	p, err := proxy.RoundRobinProxySwitcher(proxyURLs...)
 	if err != nil {
-		fmt.Printf("fetch url error:%v", err)
-		return
+		fmt.Println("RoundRobinProxySwitcher failed")
+	}
+	url := "https://google.com"
+	var f collect.Fetcher = collect.BrowserFetch{
+		Timeout: 3000 * time.Millisecond,
+		Proxy:   p,
 	}
 
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		fmt.Printf("Error status code:%v", resp.StatusCode)
-		return
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-
+	body, err := f.Get(url)
 	if err != nil {
-		fmt.Printf("read content failed:%v", err)
+		fmt.Printf("read content failed:%v\n", err)
 		return
 	}
-
-	fmt.Println("body:", string(body))
-
+	fmt.Println(string(body))
 }
