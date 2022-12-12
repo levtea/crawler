@@ -43,7 +43,7 @@ func TestFile(t *testing.T) {
 				assert.NoError(t, os.Remove(f.Name()))
 				continue
 			}
-			if strings.HasSuffix(name, filePrefix+gzipSuffix) {
+			if strings.HasSuffix(name, fileSuffix+gzipSuffix) {
 				gzCount++
 				logCount++
 				assert.NoError(t, os.Remove(f.Name()))
