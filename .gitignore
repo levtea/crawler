@@ -1,0 +1,4 @@
+*.txt
+
+# Mac os unuse file
+.DS_Store

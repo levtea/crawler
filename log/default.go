@@ -10,7 +10,7 @@ import (
 
 func DefaultEncoderConfig() zapcore.EncoderConfig {
 	var encoderConfig = zap.NewProductionEncoderConfig()
-	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	return encoderConfig
 }
